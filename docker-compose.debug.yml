@@ -1,0 +1,27 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: SharedExpenses
+    ports:
+      - 3306:3306
+  sharedexpensesapi:
+    image: sharedexpensesapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5054:5054
+    depends_on:
+      - "db"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw

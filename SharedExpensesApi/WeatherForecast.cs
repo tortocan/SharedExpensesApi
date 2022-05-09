@@ -1,3 +1,5 @@
+using System;
+
 namespace SharedExpensesApi;
 
 public class WeatherForecast

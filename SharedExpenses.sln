@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedExpensesApi", "SharedExpensesApi\SharedExpensesApi.csproj", "{F416C246-4695-421E-9CF5-FF110B5C62DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedExpenses.Tests", "SharedExpenses.Tests\SharedExpenses.Tests.csproj", "{99BCC5EF-4DDB-4134-9E13-BE269E86266A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F416C246-4695-421E-9CF5-FF110B5C62DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F416C246-4695-421E-9CF5-FF110B5C62DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F416C246-4695-421E-9CF5-FF110B5C62DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F416C246-4695-421E-9CF5-FF110B5C62DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99BCC5EF-4DDB-4134-9E13-BE269E86266A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99BCC5EF-4DDB-4134-9E13-BE269E86266A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99BCC5EF-4DDB-4134-9E13-BE269E86266A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99BCC5EF-4DDB-4134-9E13-BE269E86266A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

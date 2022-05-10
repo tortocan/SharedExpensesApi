@@ -12,6 +12,8 @@ namespace SharedExpensesApi
         }
 
         public DbSet<ApplicationUser> User { get; set; }
+        public DbSet<Expences> Expence { get; set; }
+        public DbSet<Payment> Payment { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

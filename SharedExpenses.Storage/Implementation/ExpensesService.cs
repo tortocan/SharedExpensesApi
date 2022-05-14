@@ -101,7 +101,7 @@ public class ExpensesService : IExpensesService
                     }
                     usersPayed.Add(balance.User);
                     balance = result.Balance.Where(b => !usersPayed.Any(up => up.Id == b.User.Id)).MaxBy(x => x.Amount);
-                    if(remainAmount > 0) {
+                    if(Math.Abs(remainAmount) > 0) {
                         result.BalanceDue.Add(new BalanceDue
                         {
                             To = balance.User,
@@ -122,7 +122,7 @@ public class ExpensesService : IExpensesService
                     substractUserAmount += balanceDueAmount;
                 }
             });
-            if (Math.Abs(Math.Round(result.BalanceDue.Sum(x => x.Amount),2)) != result.Balance.Where(x=>x.Amount > 0).Sum(x=>x.Amount)) throw new ArgumentOutOfRangeException(nameof(result.BalanceDue));
+            if (Math.Abs(Math.Round(result.BalanceDue.Sum(x => x.Amount),2)) != Math.Round(result.Balance.Where(x=>x.Amount > 0).Sum(x=>x.Amount),2)) throw new ArgumentOutOfRangeException(nameof(result.BalanceDue));
         }
         return result;
     }

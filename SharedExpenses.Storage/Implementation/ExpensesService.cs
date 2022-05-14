@@ -91,7 +91,7 @@ public class ExpensesService : IExpensesService
                 if (substractUserAmount < Math.Abs(x.Amount))
                 {
                     var remainAmount = substractUserAmount - Math.Abs(x.Amount);
-                    if(substractUserAmount >0) {
+                    if(substractUserAmount > 0) {
                         result.BalanceDue.Add(new BalanceDue
                         {
                             To = balance.User,
@@ -101,12 +101,14 @@ public class ExpensesService : IExpensesService
                     }
                     usersPayed.Add(balance.User);
                     balance = result.Balance.Where(b => !usersPayed.Any(up => up.Id == b.User.Id)).MaxBy(x => x.Amount);
-                    result.BalanceDue.Add(new BalanceDue
-                    {
-                        To = balance.User,
-                        From = x.User,
-                        Amount = Math.Round(remainAmount,2)
-                    });
+                    if(remainAmount > 0) {
+                        result.BalanceDue.Add(new BalanceDue
+                        {
+                            To = balance.User,
+                            From = x.User,
+                            Amount = Math.Round(remainAmount,2)
+                        });
+                    }
                     substractUserAmount = 0;
                 }
                 else
@@ -115,12 +117,12 @@ public class ExpensesService : IExpensesService
                     {
                         To = balance.User,
                         From = x.User,
-                        Amount = balanceDueAmount
+                        Amount = Math.Round(balanceDueAmount,2)
                     });
                     substractUserAmount += balanceDueAmount;
                 }
             });
-            if (Math.Abs(result.BalanceDue.Sum(x => x.Amount)) != result.Balance.Where(x=>x.Amount > 0).Sum(x=>x.Amount)) throw new ArgumentOutOfRangeException(nameof(result.BalanceDue));
+            if (Math.Abs(Math.Round(result.BalanceDue.Sum(x => x.Amount),2)) != result.Balance.Where(x=>x.Amount > 0).Sum(x=>x.Amount)) throw new ArgumentOutOfRangeException(nameof(result.BalanceDue));
         }
         return result;
     }

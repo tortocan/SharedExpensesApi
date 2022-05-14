@@ -12,6 +12,13 @@ services:
       MYSQL_DATABASE: SharedExpenses
     ports:
       - 3306:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      - mdbdata:/var/lib/mysql
   sharedexpensesapi:
     image: sharedexpensesapi
     build:
@@ -19,9 +26,14 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 5054:5054
+    links:
+      - db
     depends_on:
-      - "db"
+      db:
+        condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
+volumes:
+  mdbdata:

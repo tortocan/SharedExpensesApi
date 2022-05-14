@@ -2,14 +2,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/SharedExpensesApi/bin/Debug/net6.0/SharedExpensesApi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/SharedExpensesApi",
             "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
@@ -18,7 +23,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/SharedExpensesApi/Views"
+                "/Views": "${workspaceFolder}/Views"
             }
         },
         {
@@ -51,7 +56,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ConnectionStrings__DefaultConnection": "Server=localhost;Database=SharedExpences;User=root;Password=example"
+                "ConnectionStrings__DefaultConnection": "Server=localhost;Database=SharedExpenses;User=root;Password=example"
             },
             "sourceFileMap": {
                 "/SharedExpensesApi": "${workspaceFolder}"

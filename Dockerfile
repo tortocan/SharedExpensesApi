@@ -11,10 +11,10 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
-COPY ["SharedExpensesApi.csproj", "./"]
-RUN dotnet restore "SharedExpensesApi.csproj"
+COPY ["SharedExpensesApi/SharedExpensesApi.csproj", "SharedExpensesApi/"]
+RUN dotnet restore "SharedExpensesApi/SharedExpensesApi.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/SharedExpensesApi"
 RUN dotnet build "SharedExpensesApi.csproj" -c Release -o /app/build
 
 FROM build AS publish

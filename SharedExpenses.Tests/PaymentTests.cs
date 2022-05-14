@@ -7,11 +7,12 @@ namespace SharedExpenses.Tests
     public class PaymentTests : UnitTest
     {
         [Fact]
+        [Trait("Category","Unit")]
         public void PaymentShouldHaveDate()
         {
             // Given
             var expected = DateTime.UtcNow;
-            var sut = new Payment() { Date = expected };
+            var sut = new PaymentResponse() { Date = expected };
             sut.Date = expected;
             // When
             var result = sut;
@@ -20,11 +21,12 @@ namespace SharedExpenses.Tests
         }
 
         [Fact]
+        [Trait("Category","Unit")]
         public void PaymentShouldHaveAmount()
         {
             // Given
             var expected = 321.123;
-            var sut = new Payment() { Amount = expected };
+            var sut = new PaymentResponse() { Amount = expected };
             sut.Amount = expected;
             // When
             var result = sut;
@@ -33,11 +35,12 @@ namespace SharedExpenses.Tests
         }
 
         [Fact]
+        [Trait("Category","Unit")]
         public void PaymentShouldHaveDescription()
         {
             // Given
             var expected = "Test";
-            var sut = new Payment() { Description = expected };
+            var sut = new PaymentResponse() { Description = expected };
             sut.Description = expected;
             // When
             var result = sut;

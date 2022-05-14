@@ -6,7 +6,25 @@
             "command": "dotnet",
             "type": "process",
             "args": [
-                "test"
+                "test",
+                "--filter",
+                "Category=Unit"
+            ]
+        },
+        {
+            "label": "integration-test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "--filter",
+                "Category=Integration",
+                "--no-restore",
+                "--no-build"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "migrate"
             ]
         },
         {
@@ -15,10 +33,8 @@
             "type": "process",
             "args": [
                 "-f",
-                "${workspaceFolder}/docker-compose.debug.yml",
-                "down",
-                "-d",
-                "db"
+                "${workspaceFolder}/docker-compose.yml",
+                "down"
             ]
         },
         {
@@ -30,6 +46,25 @@
                 "${workspaceFolder}/docker-compose.debug.yml",
                 "up",
                 "-d"
+            ]
+        },
+        {
+            "label": "migrate",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "ef",
+                "database",
+                "update",
+                "--no-build",
+                "-p",
+                "${workspaceFolder}/SharedExpenses.Storage/SharedExpenses.Storage.csproj",
+                "-s",
+                "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "up"
             ]
         },
         {
@@ -46,9 +81,100 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "test",
-                "down",
-                "up"
+                "integration-test"
             ]
+        },
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: debug",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "sharedexpensesapi:dev",
+                "target": "base",
+                "dockerfile": "${workspaceFolder}/SharedExpensesApi/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj"
+            }
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: release",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "sharedexpensesapi:latest",
+                "dockerfile": "${workspaceFolder}/SharedExpensesApi/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj"
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build: debug"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj",
+                "enableDebugging": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: release",
+            "dependsOn": [
+                "docker-build: release"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/SharedExpensesApi/SharedExpensesApi.csproj"
+            }
         }
     ]
 }
